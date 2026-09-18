@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { resolveImage } from "../../../utils/fallbackImage";
 
 import { useProducts } from "../../../context/ProductsContext";
 import { useCatalog } from "../../../context/CatalogContext";
@@ -470,7 +471,7 @@ export default function ProductForm({ product = null, onDone = () => {} }) {
                     />
                     {form.image && (
                         <img
-                            src={form.image}
+                            src={resolveImage(form.image)}
                             alt="Vista previa"
                             className="product-form__image-preview"
                         />

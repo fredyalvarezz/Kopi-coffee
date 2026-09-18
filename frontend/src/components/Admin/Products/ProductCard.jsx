@@ -1,5 +1,5 @@
 import "./ProductCard.css";
-import { FALLBACK_IMAGE, handleImageError } from "../../../utils/fallbackImage";
+import { FALLBACK_IMAGE, handleImageError, resolveImage } from "../../../utils/fallbackImage";
 
 export default function ProductCard({ product, hasWarning, onEdit, onDelete }) {
 
@@ -8,7 +8,7 @@ export default function ProductCard({ product, hasWarning, onEdit, onDelete }) {
         <article className="product-card">
 
             <img
-                src={product.image || FALLBACK_IMAGE}
+                src={resolveImage(product.image)}
                 alt={product.title}
                 className="product-card__image"
                 onError={handleImageError}

@@ -1,7 +1,6 @@
 import "./Card.css";
 import { useNavigate } from "react-router-dom";
-import { FALLBACK_IMAGE, handleImageError } from "../../utils/fallbackImage";
-
+import { FALLBACK_IMAGE, handleImageError, resolveImage } from "../../utils/fallbackImage";
 export default function Card({
   id,
   title,
@@ -29,7 +28,7 @@ export default function Card({
 
       <img
         className="card__img"
-        src={image || FALLBACK_IMAGE}
+        src={resolveImage(image)}
         alt={title}
         onError={handleImageError}
       />
