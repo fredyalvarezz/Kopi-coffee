@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 import "./ProductDetail.css";
 import Toast from "../../components/Toast/Toast";
-import { FALLBACK_IMAGE, handleImageError } from "../../utils/fallbackImage";
+// línea 9 — agrega resolveImage al import
+import { FALLBACK_IMAGE, handleImageError, resolveImage } from "../../utils/fallbackImage";
 
 export default function ProductDetail() {
 
@@ -79,246 +80,246 @@ export default function ProductDetail() {
             <div className="product-detail__left">
 
                 <div className="product-detail__image-wrapper">
-                    <img
-                        src={product.image || FALLBACK_IMAGE}
-                        alt={product.title}
-                        className="product-detail__image"
-                        onError={handleImageError}
-                    />
-                </div>
-
-                <div className="product-detail__info">
-                    <h1>{product.title}</h1>
-
-                    {product.options?.infusionType && (
-                        <p className="product-detail__badge">
-                            Infusión: {product.options.infusionType}
-                        </p>
-                    )}
-
-                    <p>{product.description}</p>
-
-                    <h2>${finalPrice}</h2>
-                </div>
-
+                <img
+                    src={resolveImage(product.image)}
+                    alt={product.title}
+                    className="product-detail__image"
+                    onError={handleImageError}
+                />
             </div>
 
-            {/* Right */}
+            <div className="product-detail__info">
+                <h1>{product.title}</h1>
 
-
-            <div className="product-detail__right">
-                <button
-                    className="product-detail__back"
-                    onClick={() => navigate(-1)}
-                >
-                    ← Atras
-                </button>
-
-                {/* Preparacion */}
-                {product.options?.preparationOptions?.length > 0 && (
-                    <div className="product-detail__section">
-
-                        <h3>Preparación</h3>
-
-                        <div className="product-detail__chips">
-                            {product.options.preparationOptions.map((p) => (
-                                <button
-                                    key={p}
-                                    className={`chip ${preparation === p ? "chip--active" : ""}`}
-                                    onClick={() => setPreparation(p)}
-                                >
-                                    {p}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
+                {product.options?.infusionType && (
+                    <p className="product-detail__badge">
+                        Infusión: {product.options.infusionType}
+                    </p>
                 )}
 
+                <p>{product.description}</p>
 
-                {/* Tamaños */}
-                {product.options?.sizes?.length > 0 && (
-                    <div className="product-detail__section">
-
-                        <h3>Tamaño</h3>
-
-                        <div className="product-detail__chips">
-
-                            {product.options.sizes.map((s) => (
-                                <button
-                                    key={s}
-                                    className={`chip ${size === s ? "chip--active" : ""}`}
-                                    onClick={() => setSize(s)}
-                                >
-                                    {s}
-                                </button>
-                            ))}
-
-                        </div>
-
-                    </div>
-                )}
-
-                {product.options?.coffee?.length > 0 && (
-
-                    <div className="product-detail__section">
-
-                        <h3>Tipo de café</h3>
-
-                        <div className="product-detail__chips">
-
-                            {product.options.coffee.map((c) => (
-
-                                <button
-                                    key={c}
-                                    className={`chip ${coffee === c ? "chip--active" : ""
-                                        }`}
-                                    onClick={() => setCoffee(c)}
-                                >
-
-                                    {c}
-
-                                </button>
-
-                            ))}
-
-                        </div>
-
-                    </div>
-
-                )}
-
-                {/* Leches */}
-                {product.options?.milks?.length > 0 && (
-                    <div className="product-detail__section">
-
-                        <h3>Leche</h3>
-
-                        <div className="product-detail__chips">
-
-                            {product.options.milks.map((m) => (
-                                <button
-                                    key={m}
-                                    className={`chip ${milk === m ? "chip--active" : ""}`}
-                                    onClick={() => setMilk(m)}
-                                >
-                                    {m}
-                                </button>
-                            ))}
-
-                        </div>
-
-                    </div>
-                )}
-
-                {/* Sabores */}
-                {product.options?.flavors?.length > 0 && (
-                    <div className="product-detail__section">
-
-                        <h3>Sabores</h3>
-
-                        <div className="product-detail__chips">
-
-                            {product.options.flavors.map((f) => (
-                                <button
-                                    key={f}
-                                    className={`chip ${flavor === f ? "chip--active" : ""}`}
-                                    onClick={() => setFlavor(f)}
-                                >
-                                    {f}
-                                </button>
-                            ))}
-
-                        </div>
-
-                    </div>
-                )}
-
-
-
-                {/* Extras */}
-                {product.options?.extras?.length > 0 && (
-
-                    <div className="product-detail__section">
-
-                        <h3>Extras</h3>
-
-                        <div className="product-detail__extras">
-
-                            {product.options.extras.map(extra => (
-
-                                <label key={extra.id}>
-
-                                    <input
-                                        type="checkbox"
-                                        checked={extras[extra.id] || false}
-                                        onChange={() => toggleExtra(extra.id)}
-                                    />
-
-                                    {extra.name}
-
-                                    {extra.price > 0 && ` (+$${extra.price})`}
-
-                                </label>
-
-                            ))}
-
-                        </div>
-
-                    </div>
-
-                )}
-                {/* Notas */}
-                <div className="product-detail__section">
-
-                    <h3>Notas</h3>
-
-                    <textarea
-                        value={note}
-                        onChange={(e) => setNote(e.target.value)}
-                        placeholder="¿Alguna indicación especial para tu pedido?"
-                    />
-
-                </div>
-
-                {/* Button */}
-                <button
-                    className="product-detail__button"
-                    onClick={() => {
-
-                        addToCart({
-                            id: product.id,
-                            title: product.title,
-                            image: product.image,
-                            price: finalPrice,
-                            size,
-                            coffee,
-                            infusion: product.options?.infusionType || null,
-                            milk,
-                            flavor,
-                            extras,
-                            preparation,
-                            note,
-                            qty: 1,
-                        });
-
-                        setShowToast(true);
-
-                        setTimeout(() => {
-                            navigate(-1);
-                        }, 1200);
-
-                    }}
-                >
-                    Agregar al carrito · ${finalPrice}
-                </button>
-                <Toast
-                    message="Producto agregado 🛒"
-                    type="success"
-                    isVisible={showToast}
-                />
-
+                <h2>${finalPrice}</h2>
             </div>
 
         </div>
+
+            {/* Right */ }
+
+
+    <div className="product-detail__right">
+        <button
+            className="product-detail__back"
+            onClick={() => navigate(-1)}
+        >
+            ← Atras
+        </button>
+
+        {/* Preparacion */}
+        {product.options?.preparationOptions?.length > 0 && (
+            <div className="product-detail__section">
+
+                <h3>Preparación</h3>
+
+                <div className="product-detail__chips">
+                    {product.options.preparationOptions.map((p) => (
+                        <button
+                            key={p}
+                            className={`chip ${preparation === p ? "chip--active" : ""}`}
+                            onClick={() => setPreparation(p)}
+                        >
+                            {p}
+                        </button>
+                    ))}
+                </div>
+            </div>
+        )}
+
+
+        {/* Tamaños */}
+        {product.options?.sizes?.length > 0 && (
+            <div className="product-detail__section">
+
+                <h3>Tamaño</h3>
+
+                <div className="product-detail__chips">
+
+                    {product.options.sizes.map((s) => (
+                        <button
+                            key={s}
+                            className={`chip ${size === s ? "chip--active" : ""}`}
+                            onClick={() => setSize(s)}
+                        >
+                            {s}
+                        </button>
+                    ))}
+
+                </div>
+
+            </div>
+        )}
+
+        {product.options?.coffee?.length > 0 && (
+
+            <div className="product-detail__section">
+
+                <h3>Tipo de café</h3>
+
+                <div className="product-detail__chips">
+
+                    {product.options.coffee.map((c) => (
+
+                        <button
+                            key={c}
+                            className={`chip ${coffee === c ? "chip--active" : ""
+                                }`}
+                            onClick={() => setCoffee(c)}
+                        >
+
+                            {c}
+
+                        </button>
+
+                    ))}
+
+                </div>
+
+            </div>
+
+        )}
+
+        {/* Leches */}
+        {product.options?.milks?.length > 0 && (
+            <div className="product-detail__section">
+
+                <h3>Leche</h3>
+
+                <div className="product-detail__chips">
+
+                    {product.options.milks.map((m) => (
+                        <button
+                            key={m}
+                            className={`chip ${milk === m ? "chip--active" : ""}`}
+                            onClick={() => setMilk(m)}
+                        >
+                            {m}
+                        </button>
+                    ))}
+
+                </div>
+
+            </div>
+        )}
+
+        {/* Sabores */}
+        {product.options?.flavors?.length > 0 && (
+            <div className="product-detail__section">
+
+                <h3>Sabores</h3>
+
+                <div className="product-detail__chips">
+
+                    {product.options.flavors.map((f) => (
+                        <button
+                            key={f}
+                            className={`chip ${flavor === f ? "chip--active" : ""}`}
+                            onClick={() => setFlavor(f)}
+                        >
+                            {f}
+                        </button>
+                    ))}
+
+                </div>
+
+            </div>
+        )}
+
+
+
+        {/* Extras */}
+        {product.options?.extras?.length > 0 && (
+
+            <div className="product-detail__section">
+
+                <h3>Extras</h3>
+
+                <div className="product-detail__extras">
+
+                    {product.options.extras.map(extra => (
+
+                        <label key={extra.id}>
+
+                            <input
+                                type="checkbox"
+                                checked={extras[extra.id] || false}
+                                onChange={() => toggleExtra(extra.id)}
+                            />
+
+                            {extra.name}
+
+                            {extra.price > 0 && ` (+$${extra.price})`}
+
+                        </label>
+
+                    ))}
+
+                </div>
+
+            </div>
+
+        )}
+        {/* Notas */}
+        <div className="product-detail__section">
+
+            <h3>Notas</h3>
+
+            <textarea
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                placeholder="¿Alguna indicación especial para tu pedido?"
+            />
+
+        </div>
+
+        {/* Button */}
+        <button
+            className="product-detail__button"
+            onClick={() => {
+
+                addToCart({
+                    id: product.id,
+                    title: product.title,
+                    image: product.image,
+                    price: finalPrice,
+                    size,
+                    coffee,
+                    infusion: product.options?.infusionType || null,
+                    milk,
+                    flavor,
+                    extras,
+                    preparation,
+                    note,
+                    qty: 1,
+                });
+
+                setShowToast(true);
+
+                setTimeout(() => {
+                    navigate(-1);
+                }, 1200);
+
+            }}
+        >
+            Agregar al carrito · ${finalPrice}
+        </button>
+        <Toast
+            message="Producto agregado 🛒"
+            type="success"
+            isVisible={showToast}
+        />
+
+    </div>
+
+        </div >
     );
 }

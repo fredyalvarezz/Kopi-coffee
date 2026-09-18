@@ -66,4 +66,4 @@ GitHub:
 https://github.com/fredyalvarezz
 
 Live: 
-https://fredyalvarezz.github.io/Kopi-caffee/
+https://fredyalvarezz.github.io/Kopi-coffee/
