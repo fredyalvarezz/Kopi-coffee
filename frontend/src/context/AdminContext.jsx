@@ -14,13 +14,6 @@ export const useAdmin = () => useContext(AdminContext);
 
 export function AdminProvider({ children }) {
 
-  // products, inventory, orders y users vienen cada uno de su propio
-  // contexto — ninguno vive aquí directamente. Así se evita tener
-  // copias distintas de la misma información en la app.
-  //
-  // IMPORTANTE: por esto, <AdminProvider> debe quedar DENTRO de
-  // <ProductsProvider>, <InventoryProvider>, <OrdersProvider> Y
-  // <UsersProvider> en el árbol.
   const { products, addProduct, updateProduct, deleteProduct } = useProducts();
 
   const {

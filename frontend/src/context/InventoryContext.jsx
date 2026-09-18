@@ -61,9 +61,7 @@ export function InventoryProvider({ children }) {
         setInventory(prev => prev.filter(i => i.id !== id));
     };
 
-    // Suma (o resta, con un número negativo) al stock actual de un insumo.
-    // No se usa todavía en ningún lado — está lista para cuando conectemos
-    // el descuento automático por receta al completarse un pedido.
+   
     const adjustStock = (id, amount) => {
         setInventory(prev =>
             prev.map(i =>

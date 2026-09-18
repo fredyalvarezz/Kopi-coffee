@@ -1,4 +1,4 @@
-# Kopi Caffee — Backend
+# Kopi Coffee — Backend
 
 API REST con Node.js, Express, MongoDB (Mongoose), JWT y bcryptjs.
 Modelo de datos alineado 1:1 al frontend (products, inventory, orders, users).

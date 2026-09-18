@@ -37,8 +37,7 @@ export function OrdersProvider({ children }) {
 
     }, [orders]);
 
-    // Se llama al completar un pago real desde el carrito del cliente.
-    // El pedido más nuevo queda primero, para que el admin lo vea arriba.
+
     const addOrder = (orderData) => {
 
         setOrders(prev => {
@@ -53,8 +52,7 @@ export function OrdersProvider({ children }) {
 
     };
 
-    // Para que el admin pueda mover un pedido de "pending" a "preparing"
-    // a "completed" (o "cancelled"), desde la pantalla de Pedidos.
+
     const updateOrderStatus = (id, status) => {
 
         setOrders(prev =>

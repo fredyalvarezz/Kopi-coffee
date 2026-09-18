@@ -23,7 +23,7 @@ async function register(req, res, next) {
       name,
       email,
       password,
-      role: "cliente", // forzado, nunca viene del body
+      role: "cliente",
     });
 
     res.status(201).json({

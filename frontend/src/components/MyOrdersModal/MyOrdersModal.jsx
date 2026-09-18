@@ -28,9 +28,6 @@ export default function MyOrdersModal({ user, onClose }) {
 
     const { orders } = useOrders();
 
-    // Pedidos hechos antes de que agregáramos userId a cada pedido no
-    // van a aparecer aquí (no tienen forma de saber de quién eran) —
-    // solo afecta a pedidos de prueba viejos, los nuevos sí quedan bien.
     const myOrders = orders.filter(order => order.userId === user.id);
 
     return (

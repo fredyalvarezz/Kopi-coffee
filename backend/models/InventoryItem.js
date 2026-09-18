@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Esto es el inventario de INSUMOS (café, leche, jarabes...), igual que
-// tu data/inventory.js — es distinto del "stock" booleano del Product,
+//  data/inventory.js — es distinto del "stock" booleano del Product,
 // que solo indica si esa bebida está disponible o agotada.
 const inventoryItemSchema = new mongoose.Schema(
   {

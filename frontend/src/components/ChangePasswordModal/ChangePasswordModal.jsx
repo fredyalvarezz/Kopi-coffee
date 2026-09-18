@@ -36,9 +36,7 @@ export default function ChangePasswordModal({
 
         e.preventDefault();
 
-        // El objeto "user" de useAuth() no trae la contraseña (se le
-        // quita a propósito al hacer login) — para validarla hay que
-        // buscar el registro completo en UsersContext.
+      
         const fullUser = users.find(u => u.id === user.id);
 
         if (!fullUser || fullUser.password !== currentPassword) {

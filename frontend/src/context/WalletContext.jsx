@@ -79,8 +79,6 @@ export function WalletProvider({ children }) {
 
     };
 
-    // Descuento (pago): valida que haya saldo suficiente ANTES de
-    // mover nada — igual que ya haces con el inventario al pagar.
     const deductFunds = (userId, amount, note = "Pago de pedido") => {
 
         if (!userId) return { success: false, error: "No hay sesión activa." };

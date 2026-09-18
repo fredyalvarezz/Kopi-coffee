@@ -11,10 +11,7 @@ const STORAGE_KEY = "cafeteria_catalog";
 
 const CatalogContext = createContext(null);
 
-// inventoryLinks: por cada categoría (milks, coffeeOptions, infusionOptions,
-// flavors), un mapa { "nombre del valor": inventoryItemId }. "flavors" es
-// plano (no separado por grupo) — si el mismo nombre de sabor existe en
-// más de un grupo, comparten el mismo insumo vinculado.
+
 const emptyInventoryLinks = {
     milks: {},
     coffeeOptions: {},
@@ -41,8 +38,7 @@ function loadInitialCatalog() {
 
             const parsed = JSON.parse(stored);
 
-            // merge por si el catálogo guardado es de antes de que
-            // existiera inventoryLinks, para no tronar leyendo undefined
+            
             return {
                 ...defaults,
                 ...parsed,
@@ -76,7 +72,6 @@ export function CatalogProvider({ children }) {
 
     }, [catalog]);
 
-    // --- Listas simples de texto: milks, coffeeOptions, infusionOptions ---
 
     const addListItem = (listName, value) => {
 
@@ -86,7 +81,7 @@ export function CatalogProvider({ children }) {
 
         setCatalog(prev => {
 
-            if (prev[listName].includes(trimmed)) return prev; // ya existe
+            if (prev[listName].includes(trimmed)) return prev; 
 
             return { ...prev, [listName]: [...prev[listName], trimmed] };
 
@@ -103,7 +98,6 @@ export function CatalogProvider({ children }) {
 
     };
 
-    // --- Extras (objetos con id, nombre y precio) ---
 
     const addExtra = (extra) => {
 
@@ -123,10 +117,7 @@ export function CatalogProvider({ children }) {
                     id,
                     name,
                     price: Number(extra.price) || 0,
-                    // Insumo que consume este extra al elegirse, y cuánto.
-                    // Ambos opcionales — si se dejan vacíos, el extra no
-                    // descuenta nada del inventario (ej. "Splenda").
-                    inventoryItemId: extra.inventoryItemId ? Number(extra.inventoryItemId) : null,
+                      inventoryItemId: extra.inventoryItemId ? Number(extra.inventoryItemId) : null,
                     amount: extra.amount ? Number(extra.amount) : 0,
                 }],
             };
@@ -153,7 +144,6 @@ export function CatalogProvider({ children }) {
 
     };
 
-    // --- Sabores, agrupados por tipo de producto (flavorGroups) ---
 
     const addFlavor = (group, value) => {
 
@@ -188,8 +178,7 @@ export function CatalogProvider({ children }) {
 
     };
 
-    // Para cuando agregues un tipo de producto nuevo (ej. Smoothies) que
-    // necesite su propio grupo de sabores, sin mezclarse con los demás.
+
     const addFlavorGroup = (groupName) => {
 
         const key = groupName.trim().toLowerCase().replace(/\s+/g, "-");
@@ -206,10 +195,7 @@ export function CatalogProvider({ children }) {
 
     };
 
-    // --- Vínculo entre un valor del catálogo y un insumo del Inventario ---
-    // category: "milks" | "coffeeOptions" | "infusionOptions" | "flavors"
-    // value: el nombre tal cual aparece en el catálogo (ej. "Avena")
-    // inventoryItemId: id del insumo en Inventory, o "" / null para quitar
+
     const setInventoryLink = (category, value, inventoryItemId) => {
 
         setCatalog(prev => ({

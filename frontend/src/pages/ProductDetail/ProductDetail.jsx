@@ -38,8 +38,6 @@ export default function ProductDetail() {
 
     const [showToast, setShowToast] = useState(false);
 
-    // Si el id no corresponde a ningún producto (ej. link viejo, o el
-    // producto se borró), evita que truene tratando de leer sus datos.
     if (!product) {
         return (
             <div className="product-detail__not-found">

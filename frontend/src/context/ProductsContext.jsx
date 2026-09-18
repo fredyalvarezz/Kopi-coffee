@@ -19,8 +19,7 @@ function loadInitialProducts() {
         console.error("No se pudo leer productos guardados:", err);
     }
 
-    // Si no hay nada guardado todavía (primera vez que abren la app),
-    // arranca con el catálogo base que ya tenías en products.js
+  
     return seedProducts;
 
 }
@@ -29,8 +28,7 @@ export function ProductsProvider({ children }) {
 
     const [products, setProducts] = useState(loadInitialProducts);
 
-    // Cada vez que la lista de productos cambia, se guarda en localStorage
-    // para que sobreviva a un recargo de página.
+
     useEffect(() => {
 
         try {

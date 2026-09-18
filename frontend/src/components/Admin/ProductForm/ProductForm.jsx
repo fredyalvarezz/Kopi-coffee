@@ -19,7 +19,7 @@ import {
 import "./ProductForm.css";
 
 // Grupos del catálogo que una línea de receta "según elección del
-// cliente" puede referenciar. La categoría (key) tiene que coincidir
+// cliente". La categoría tiene que coincidir
 // con las que usa CatalogContext en inventoryLinks, y con el campo del
 // carrito que se resuelve en Orders.jsx al pagar.
 const RECIPE_GROUPS = [

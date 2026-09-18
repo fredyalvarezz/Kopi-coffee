@@ -20,8 +20,7 @@ function loadInitialSettings() {
         const stored = localStorage.getItem(STORAGE_KEY);
 
         if (stored) {
-            // merge por si en el futuro agregamos un campo nuevo y el
-            // usuario ya tiene algo guardado de antes
+     
             return { ...defaultSettings, ...JSON.parse(stored) };
         }
 

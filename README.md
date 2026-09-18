@@ -1,4 +1,4 @@
-# Kopi Caffee ☕
+# Kopi Coffee ☕
 
 Punto de venta para cafetería — proyecto de TripleTen. Los clientes exploran
 el menú, personalizan sus bebidas, pagan con cartera interna o tarjeta; los

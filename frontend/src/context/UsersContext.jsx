@@ -45,8 +45,7 @@ export function UsersProvider({ children }) {
 
     }, [users]);
 
-    // Registro real: valida que el correo no esté repetido.
-    // Regresa { success, user } o { success: false, error }.
+    //
     const registerUser = ({ name, email, phone, password }) => {
 
         const normalizedEmail = email.trim().toLowerCase();
@@ -78,8 +77,7 @@ export function UsersProvider({ children }) {
 
     };
 
-    // Login real: busca coincidencia exacta de correo + contraseña.
-    // Regresa el usuario (sin la contraseña) o null si no coincide.
+    
     const authenticate = (email, password) => {
 
         const normalizedEmail = email.trim().toLowerCase();

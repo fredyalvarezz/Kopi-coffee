@@ -6,9 +6,7 @@ export const GROUP_LABELS = {
     flavors: "Sabor",
 };
 
-// Los sabores no viven en una sola lista plana del catálogo — están
-// repartidos en catalog.flavorGroups (uno por tipo de producto). Para
-// revisar vínculos hay que juntarlos todos.
+
 function getGroupValues(catalog, group) {
 
     if (group === "flavors") {
@@ -19,10 +17,6 @@ function getGroupValues(catalog, group) {
 
 }
 
-// Revisa la receta de un producto y regresa una lista de mensajes de
-// advertencia: valores del catálogo sin vincular a ningún insumo (para
-// renglones "variables"), o insumos fijos que ya no existen en
-// Inventario (por ejemplo si se borraron después de armar la receta).
 export function getRecipeWarnings(product, catalog, inventory) {
 
     const warnings = [];

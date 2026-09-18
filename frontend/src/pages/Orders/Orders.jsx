@@ -27,9 +27,7 @@ export default function Orders() {
 
     const { products } = useProducts();
 
-    // IMPORTANTE:
-    // Ahora necesitamos inventory además de adjustStock,
-    // porque primero vamos a comprobar si hay suficiente stock.
+  
     const {
         inventory,
         adjustStock,
@@ -63,10 +61,7 @@ export default function Orders() {
     const [showWalletToast, setShowWalletToast] = useState(false);
     const [walletError, setWalletError] = useState("");
 
-    /*
-     * Para una receta variable, averigua qué valor eligió el cliente
-     * y busca el insumo correspondiente en Catalog.
-     */
+
     const resolveVariableInventoryId = (group, item) => {
 
         const chosenValue =
@@ -86,19 +81,7 @@ export default function Orders() {
 
     };
 
-    /*
-     * Calcula TODOS los insumos que necesita el pedido.
-     *
-     * El resultado tiene esta forma:
-     *
-     * [
-     *   { inventoryItemId: 1, amount: 0.5 },
-     *   { inventoryItemId: 2, amount: 1.2 }
-     * ]
-     *
-     * Si dos productos utilizan el mismo insumo, aquí se acumula
-     * la cantidad para hacer una sola validación.
-     */
+   
     const calculateRequiredInventory = () => {
 
         const required = {};
@@ -121,9 +104,7 @@ export default function Orders() {
 
             if (!product) return;
 
-            /*
-             * RECETA DEL PRODUCTO
-             */
+          
             if (product.recipe?.length) {
 
                 product.recipe.forEach((line) => {
@@ -149,9 +130,7 @@ export default function Orders() {
 
             }
 
-            /*
-             * EXTRAS
-             */
+           
             if (item.extras) {
 
                 Object.entries(item.extras).forEach(
@@ -195,14 +174,6 @@ export default function Orders() {
 
     };
 
-    /*
-     * Comprueba si TODO el pedido puede salir del inventario.
-     *
-     * IMPORTANTE:
-     * Aquí todavía NO modificamos el inventario.
-     *
-     * Si falta un solo ingrediente, regresamos false.
-     */
     const validateInventory = (requiredInventory) => {
 
         const unavailableItems = [];
@@ -213,10 +184,7 @@ export default function Orders() {
                 item => item.id === required.inventoryItemId
             );
 
-            /*
-             * Si la receta apunta a un insumo que ya no existe
-             * en Inventario, tampoco permitimos vender.
-             */
+            
             if (!inventoryItem) {
 
                 unavailableItems.push({
@@ -247,32 +215,17 @@ export default function Orders() {
 
     };
 
-    /*
-     * PAGO
-     *
-     * Primero calcula.
-     * Después valida.
-     * SOLAMENTE si todo está disponible descuenta el inventario.
-     * Y por último, registra el pedido real para el admin.
-     */
     const handlePay = () => {
 
-        /*
-         * 1. Calcular todo lo que necesita el pedido.
-         */
+        
         const requiredInventory =
             calculateRequiredInventory();
 
-        /*
-         * 2. Comprobar que exista suficiente stock.
-         */
+        
         const unavailableItems =
             validateInventory(requiredInventory);
 
-        /*
-         * 3. Si falta algo, NO hacemos ningún descuento ni registramos
-         * el pedido.
-         */
+       
         if (unavailableItems.length > 0) {
 
             const message = unavailableItems
@@ -300,11 +253,7 @@ export default function Orders() {
 
         }
 
-        /*
-         * 3.5. Comprobar saldo de la cartera — solo si hay sesión
-         * iniciada. Un invitado sigue pagando como hasta ahora, sin
-         * tocar cartera (no tiene una).
-         */
+        
         if (user) {
 
             const balance = getBalance(user.id);
@@ -329,11 +278,7 @@ export default function Orders() {
 
         }
 
-        /*
-         * 4. TODO está disponible.
-         *
-         * Ahora sí hacemos los descuentos.
-         */
+        
         requiredInventory.forEach((required) => {
 
             adjustStock(
@@ -343,22 +288,12 @@ export default function Orders() {
 
         });
 
-        /*
-         * 4.5. Descontar el pago de la cartera (solo si hay sesión).
-         * Ya validamos arriba que alcanza, así que esto no debería
-         * fallar — pero por seguridad no truena si algo raro pasa,
-         * simplemente no descuenta.
-         */
+       
         if (user) {
             deductFunds(user.id, total, "Pago de pedido");
         }
 
-        /*
-         * 5. Registrar el pedido real, para que el admin lo vea en
-         * su historial. Guarda una copia de cada item con todas sus
-         * personalizaciones (no solo el id), porque el producto
-         * original se podría editar o borrar después.
-         */
+       
         addOrder({
             userId: user?.id || null,
             customer: user?.name || "Invitado",

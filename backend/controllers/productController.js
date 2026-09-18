@@ -80,7 +80,7 @@ async function deleteProduct(req, res, next) {
 
 // @route  PATCH /api/products/:id/stock
 // @access Admin
-// @desc   Marca un producto como disponible/agotado (stock es booleano en tu modelo)
+// @desc   Marca un producto como disponible/agotado (stock es booleano en el modelo)
 async function updateStock(req, res, next) {
   try {
     const { stock } = req.body;

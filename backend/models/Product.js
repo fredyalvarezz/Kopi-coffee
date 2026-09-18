@@ -2,11 +2,6 @@ const mongoose = require("mongoose");
 
 // "options" varía muchísimo según el productType (coffee, infusionType,
 // containsCoffee, preparationOptions, flavors, milks, extras, sizes...)
-// tal como en tu productTypeConfig del frontend. En vez de forzar un
-// sub-schema rígido, lo dejamos como objeto libre (Mixed) para que el
-// admin pueda mandar exactamente la misma forma que ya arma tu
-// ProductForm.jsx, sin tener que tocar el backend cada vez que agregues
-// un productType nuevo.
 const productSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true },
@@ -18,8 +13,8 @@ const productSchema = new mongoose.Schema(
 
     image: { type: String, default: "" },
 
-    // Igual que en tu products.js actual: true/false (disponible o agotado),
-    // NO es un conteo de unidades. El conteo de insumos vive en InventoryItem.
+    // true/false (disponible o agotado),
+
     stock: { type: Boolean, default: true },
 
     customizable: { type: Boolean, default: true },

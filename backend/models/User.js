@@ -19,19 +19,16 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "La contraseña es obligatoria"],
       minlength: 6,
-      select: false, // nunca se regresa por defecto en las consultas
+      select: false, 
     },
     role: {
       type: String,
-      // Tu data actual usa "user" y "admin". Dejamos "barista" ya
-      // disponible por si separas la operación de cocina del admin
-      // más adelante; si no lo usas, no pasa nada.
       enum: ["user", "barista", "admin"],
       default: "user",
     },
     active: {
       type: Boolean,
-      default: true, // permite "desactivar" baristas/admins sin borrarlos
+      default: true, // permite "desactivar" admin sin borrarlos
     },
   },
   { timestamps: true }
