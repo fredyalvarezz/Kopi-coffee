@@ -11,8 +11,7 @@ import { useInventory } from "../../context/InventoryContext";
 import { useOrders } from "../../context/OrdersContext";
 import { useWallet } from "../../context/WalletContext";
 import { useAuth } from "../../context/AuthContext";
-import { FALLBACK_IMAGE, handleImageError } from "../../utils/fallbackImage";
-
+import { FALLBACK_IMAGE, handleImageError, resolveImage } from "../../utils/fallbackImage";
 export default function Orders() {
 
     const {
@@ -27,7 +26,7 @@ export default function Orders() {
 
     const { products } = useProducts();
 
-  
+
     const {
         inventory,
         adjustStock,
@@ -81,7 +80,7 @@ export default function Orders() {
 
     };
 
-   
+
     const calculateRequiredInventory = () => {
 
         const required = {};
@@ -104,7 +103,7 @@ export default function Orders() {
 
             if (!product) return;
 
-          
+
             if (product.recipe?.length) {
 
                 product.recipe.forEach((line) => {
@@ -130,7 +129,7 @@ export default function Orders() {
 
             }
 
-           
+
             if (item.extras) {
 
                 Object.entries(item.extras).forEach(
@@ -184,7 +183,7 @@ export default function Orders() {
                 item => item.id === required.inventoryItemId
             );
 
-            
+
             if (!inventoryItem) {
 
                 unavailableItems.push({
@@ -217,15 +216,15 @@ export default function Orders() {
 
     const handlePay = () => {
 
-        
+
         const requiredInventory =
             calculateRequiredInventory();
 
-        
+
         const unavailableItems =
             validateInventory(requiredInventory);
 
-       
+
         if (unavailableItems.length > 0) {
 
             const message = unavailableItems
@@ -253,7 +252,7 @@ export default function Orders() {
 
         }
 
-        
+
         if (user) {
 
             const balance = getBalance(user.id);
@@ -278,7 +277,7 @@ export default function Orders() {
 
         }
 
-        
+
         requiredInventory.forEach((required) => {
 
             adjustStock(
@@ -288,12 +287,12 @@ export default function Orders() {
 
         });
 
-       
+
         if (user) {
             deductFunds(user.id, total, "Pago de pedido");
         }
 
-       
+
         addOrder({
             userId: user?.id || null,
             customer: user?.name || "Invitado",
@@ -368,10 +367,7 @@ export default function Orders() {
                         >
 
                             <img
-                                src={
-                                    item.image ||
-                                    FALLBACK_IMAGE
-                                }
+                                src={resolveImage(item.image)}
                                 alt={item.title}
                                 className="orders__image"
                                 onError={handleImageError}
